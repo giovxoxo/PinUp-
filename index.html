@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PinUp! - Pines Personalizados en Santa Fe</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- BARRA DE SALUDO, CARRUSEL Y MODO OSCURO -->
+    <div id="saludo-banner" class="saludo-banner">
+        <span id="mensaje-saludo">¡Hola! Bienvenidos a PinUp!</span>
+        <div id="carrusel-ofertas" class="carrusel-ofertas">✨ ¡Promo especial: Envío gratis en compras mayores a $<span class="numero">10.000</span>! ✨</div>
+        <button id="theme-toggle" class="btn-theme" aria-label="Cambiar modo">🌙 Modo Oscuro</button>
+    </div>
+
+    <!-- CABECERA CON LOGO Y BUSCADOR -->
+    <header class="header-principal">
+        <div class="header-izquierda">
+            <button id="menu-btn" class="menu-hamburguesa" aria-label="Menú">&#9776;</button>
+            <nav id="nav-links" class="nav-links">
+                <a href="#inicio">INICIO</a>
+                <a href="#pedidos">PEDIDOS</a>
+                <a href="#calculadora">CALCULADORA</a>
+                <a href="#stock">CATÁLOGO</a>
+                <a href="#clientes">CLIENTES</a>
+                <a href="#preguntas">PREGUNTAS</a>
+                <a href="#contacto">CONTACTO</a>
+                <a href="#cuenta">CUENTA</a>
+            </nav>
+        </div>
+
+        <div class="logo-central">
+            <img src="PinUp logo transparente.jpe" alt="Logo PinUp!" class="img-logo-header">
+        </div>
+
+        <div class="header-derecha">
+            <input type="text" id="buscador-input" placeholder="Buscar pin..." class="buscador-header">
+            <a href="#cuenta" class="icon-btn" aria-label="Cuenta">👤</a>
+            <button id="btn-carrito-toggle" class="icon-btn" aria-label="Carrito">🛒 (<span id="carrito-contador" class="numero">0</span>)</button>
+        </div>
+    </header>
+
+    <!-- CARRITO MODAL -->
+    <div id="carrito-modal" class="carrito-modal" style="display: none;">
+        <div class="carrito-contenido">
+            <h3>🛒 Tu Carrito de PinUp!</h3>
+            <div id="carrito-items-lista">Tu carrito está vacío.</div>
+            <p><strong>Total: $<span id="carrito-total-monto" class="numero">0</span> ARS</strong></p>
+            <button class="btn-subir-imagen" onclick="finalizarCompraWhatsApp()">📲 Pedir por WhatsApp</button>
+            <button class="btn-auth-tab" onclick="toggleCarrito()" style="margin-top: 0.5rem; background: #ef4444; color: white; border: none;">Cerrar</button>
+        </div>
+    </div>
+
+    <main>
+        <!-- BANNER INICIAL CON CUENTA REGRESIVA (NIVEL 4) -->
+        <section id="inicio" class="banner-promocional">
+            <div class="banner-contenido">
+                <h2>¡TU ESTILO, TUS DISEÑOS, TUS PINES!</h2>
+                <p>En <strong>PinUp!</strong> elaboramos pines prendedores personalizados de <span class="numero">58</span> mm por encargo en Santa Fe. ¡Hacé realidad tus ilustraciones, personajes de anime, videojuegos o fotos favoritas!</p>
+                <div class="countdown-container">
+                    <p>⏳ <strong>Promo Lanzamiento - Fin de oferta en:</strong></p>
+                    <div id="countdown-reloj" class="countdown-reloj"><span class="numero">02</span>d : <span class="numero">14</span>h : <span class="numero">45</span>m : <span class="numero">30</span>s</div>
+                </div>
+            </div>
+        </section>
+
+<!-- SECCIÓN: PEDIDOS Y COMBOS -->
+        <section id="pedidos" class="seccion-general">
+            <div class="titulo-seccion-container">
+                <span class="flecha-indicadora">&#8618;</span>
+                <h2 class="titulo-seccion">PEDIDOS Y COMBOS</h2>
+            </div>
+            <p class="descripcion-seccion">
+                Trabajamos desde <span class="numero">1</span> unidad hasta un máximo de <span class="numero">8</span> pines por pedido para cuidar la calidad artesanal. Mirá nuestros empaques y combos:
+            </p>
+
+            <div class="grid-productos">
+                <article class="card-producto">
+                    <div class="card-imagen-box"><img src="1 PIN.jpe" alt="1 Pin" class="img-galeria"></div>
+                    <div class="card-info">
+                        <h3><span class="numero">1</span> Pin Individual</h3>
+                        <p class="precio">$<span class="numero">3.000</span> ARS</p>
+                        <p class="texto-card">Perfecto para un detalle único o autorregalo.</p>
+                        <button class="btn-subir-imagen" onclick="agregarAlCarrito('1 Pin Individual', 3000)">Agregar al Carrito</button>
+                    </div>
+                </article>
+                <article class="card-producto">
+                    <div class="card-imagen-box"><img src="2 PINES.jpe" alt="2 Pines" class="img-galeria"></div>
+                    <div class="card-info">
+                        <h3>Pack x<span class="numero">2</span> Pines</h3>
+                        <p class="precio">$<span class="numero">5.500</span> ARS</p>
+                        <p class="texto-card">Combiná tus dos diseños favoritos con descuento.</p>
+                        <button class="btn-subir-imagen" onclick="agregarAlCarrito('Pack x2 Pines', 5500)">Agregar al Carrito</button>
+                    </div>
+                </article>
+                <article class="card-producto">
+                    <div class="card-imagen-box"><img src="34 PINES.jpe" alt="3 o 4 Pines" class="img-galeria"></div>
+                    <div class="card-info">
+                        <h3>Pack x<span class="numero">3</span> o x<span class="numero">4</span> Pines</h3>
+                        <p class="precio">$<span class="numero">8.000</span> - $<span class="numero">10.500</span> ARS</p>
+                        <p class="texto-card">Ideal para armar mini colecciones de tus fandoms.</p>
+                        <button class="btn-subir-imagen" onclick="agregarAlCarrito('Pack x3 Pines', 8000)">Agregar al Carrito</button>
+                    </div>
+                </article>
+                <article class="card-producto">
+                    <div class="card-imagen-box"><img src="56 PINES.jpe" alt="5 o 6 Pines" class="img-galeria"></div>
+                    <div class="card-info">
+                        <h3>Pack x<span class="numero">5</span> o x<span class="numero">6</span> Pines</h3>
+                        <p class="precio">$<span class="numero">13.000</span> - $<span class="numero">15.000</span> ARS</p>
+                        <p class="texto-card">Empaquetados individualmente con tarjeta PinUp!</p>
+                        <button class="btn-subir-imagen" onclick="agregarAlCarrito('Pack x5 Pines', 13000)">Agregar al Carrito</button>
+                    </div>
+                </article>
+                <article class="card-producto">
+                    <div class="card-imagen-box"><img src="78 PINES.jpe" alt="7 u 8 Pines" class="img-galeria"></div>
+                    <div class="card-info">
+                        <h3>Pack Máximo (<span class="numero">7</span>-<span class="numero">8</span> u.)</h3>
+                        <p class="precio">$<span class="numero">17.000</span> - $<span class="numero">19.000</span> ARS</p>
+                        <p class="texto-card">Nuestro volumen máximo por pedido para mantener la rapidez artesanal.</p>
+                        <button class="btn-subir-imagen" onclick="agregarAlCarrito('Pack x8 Pines', 19000)">Agregar al Carrito</button>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: CALCULADORA DE PRESUPUESTO -->
+        <section id="calculadora" class="seccion-general">
+            <div class="titulo-seccion-container">
+                <span class="flecha-indicadora">&#8618;</span>
+                <h2 class="titulo-seccion">CALCULADORA DE PEDIDO</h2>
+            </div>
+            <p class="descripcion-seccion">Calculá el costo exacto de tu pedido según la cantidad de pines deseada:</p>
+            
+            <div class="simulador-container">
+                <div class="form-group" style="width: 100%;">
+                    <label for="calc-cantidad">Cantidad de pines (<span class="numero">1</span> a <span class="numero">8</span>):</label>
+                    <input type="number" id="calc-cantidad" min="1" max="8" value="1" oninput="calcularPresupuesto()" class="numero">
+                </div>
+                <div style="font-size: 1.2rem; font-weight: bold; margin-top: 0.5rem;">
+                    Precio Estimado: $<span id="calc-resultado" class="numero">3000</span> ARS
+                </div>
+                <button class="btn-subir-imagen" onclick="agregarCalculoAlCarrito()">🛒 Agregar este pedido al carrito</button>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: SIMULADOR DE PINES -->
+        <section id="simulador" class="seccion-general">
+            <div class="titulo-seccion-container">
+                <span class="flecha-indicadora">&#8618;</span>
+                <h2 class="titulo-seccion">¡PROBÁ CÓMO QUEDARÍA TU PIN!</h2>
+            </div>
+            <p class="descripcion-seccion">
+                Subí una imagen desde tu dispositivo para visualizar en tiempo real cómo se verá dentro de la estructura metálica de nuestro pin de <span class="numero">58</span> mm.
+            </p>
+
+            <div class="simulador-container">
+                <div class="canvas-pin-wrapper">
+                    <img src="probar pines.jpe" alt="Plantilla Base Pin" class="img-base-pin">
+                    <div id="preview-circulo" class="preview-circulo">
+                        <span id="placeholder-texto">Tu diseño aquí</span>
+                        <img id="imagen-usuario" src="" alt="" style="display: none;">
+                    </div>
+                </div>
+
+                <div class="controles-simulador">
+                    <label for="subir-imagen" class="btn-subir-imagen">📁 Subir imagen para tu pin</label>
+                    <input type="file" id="subir-imagen" accept="image/*" style="display: none;">
+                    <p class="nota-simulador">💡 Tip: Buscá una imagen cuadrada para que encaje perfecto en el círculo.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: CATÁLOGO DINÁMICO (NIVEL 2: Generado con Array, Objeto y Bucle) -->
+        <section id="stock" class="seccion-general">
+            <div class="titulo-seccion-container">
+                <span class="flecha-indicadora">&#8618;</span>
+                <h2 class="titulo-seccion">CATÁLOGO DE STOCK Y PLANTILLAS</h2>
+            </div>
+            <p class="descripcion-seccion">
+                Explorá nuestras plantillas organizadas por gama cromática (generado automáticamente desde JavaScript):
+            </p>
+
+            <!-- FILTROS DE COLOR -->
+            <div class="filtros-color">
+                <button class="btn-filtro active" data-color="todos">Todos</button>
+                <button class="btn-filtro" data-color="marron">🤎 Marrones</button>
+                <button class="btn-filtro" data-color="morado">💜 Morados</button>
+                <button class="btn-filtro" data-color="azul">🔵 Azules</button>
+                <button class="btn-filtro" data-color="verde">🟢 Verdes</button>
+                <button class="btn-filtro" data-color="amarillo">🟡 Amarillos</button>
+                <button class="btn-filtro" data-color="rosa">🌸 Rosas</button>
+                <button class="btn-filtro" data-color="naranja">🟠 Naranjas</button>
+                <button class="btn-filtro" data-color="rojo">🔴 Rojos</button>
+            </div>
+
+            <!-- GRILLA INYECTADA POR JS -->
+            <div class="grid-productos" id="grid-stock-dinamico"></div>
+        </section>
+
+        <!-- SECCIÓN: CLIENTES (FOTOS DE PEDIDOS REALIZADOS CON LIGHTBOX) -->
+        <section id="clientes" class="seccion-general">
+            <div class="titulo-seccion-container">
+                <span class="flecha-indicadora">&#8618;</span>
+                <h2 class="titulo-seccion">FOTOS DE CLIENTES Y PEDIDOS REALIZADOS</h2>
+            </div>
+            <p class="descripcion-seccion">
+                ¡Mirá algunos de los hermosos pines personalizados que ya entregamos a nuestros clientes en Santa Fe! (Hacé clic para ampliar).
+            </p>
+
+            <div class="grid-productos">
+                <article class="card-producto">
+                    <div class="card-imagen-box"><img src="Pines4.jpeg" alt="Pedido cliente 1" class="img-galeria"></div>
+                    <div class="card-info">
+                        <h3>Pack Entregado #<span class="numero">1</span></h3>
+                        <p class="texto-card">Pines ya empacados para diferentes clientes con diversos gustos.</p>
+                    </div>
+                </article>
+                <article class="card-producto">
+                    <div class="card-imagen-box"><img src="Pines5.jpeg" alt="Pedido cliente 2" class="img-galeria"></div>
+                    <div class="card-info">
+                        <h3>Pack Entregado #<span class="numero">2</span></h3>
+                        <p class="texto-card">Pedidos solicitados por clientes de diferentes edades.</p>
+                    </div>
+                </article>
+                <article class="card-producto">
+                    <div class="card-imagen-box"><img src="Pines6.jpeg" alt="Pedido cliente 3" class="img-galeria"></div>
+                    <div class="card-info">
+                        <h3>Pack Entregado #<span class="numero">3</span></h3>
+                        <p class="texto-card">Nuestro pedido más grande de PinUp! (¡con <span class="numero">8</span> pines solicitados!) acompañado de otros pedidos.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- MODAL LIGHTBOX PARA IMÁGENES (NIVEL 1) -->
+        <div id="lightbox-modal" class="lightbox-modal" style="display: none;" onclick="cerrarLightbox()">
+            <span class="lightbox-cerrar">&times;</span>
+            <img id="lightbox-img" src="" alt="Ampliada">
+        </div>
+
+        <!-- SECCIÓN: CUENTA (REGISTRO E INICIO DE SESIÓN CON LOCALSTORAGE) -->
+        <section id="cuenta" class="seccion-general">
+            <div class="titulo-seccion-container">
+                <span class="flecha-indicadora">&#8618;</span>
+                <h2 class="titulo-seccion">MI CUENTA</h2>
+            </div>
+            <p class="descripcion-seccion">
+                Iniciá sesión o registrate para gestionar tus pedidos y enviar preguntas personalizadas a nuestro equipo.
+            </p>
+
+            <div class="cuenta-container" id="cuenta-box-wrapper">
+                <div id="auth-forms" class="auth-forms">
+                    <div class="auth-tabs">
+                        <button id="tab-login" class="btn-auth-tab active" onclick="cambiarTab('login')">Iniciar Sesión</button>
+                        <button id="tab-register" class="btn-auth-tab" onclick="cambiarTab('register')">Registrarse</button>
+                    </div>
+
+                    <form id="form-login" class="form-auth" onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label for="login-email">Correo electrónico</label>
+                            <input type="email" id="login-email" required placeholder="tucorreo@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Contraseña</label>
+                            <input type="password" id="login-password" required placeholder="••••••••">
+                        </div>
+                        <button type="submit" class="btn-subir-imagen">Ingresar</button>
+                    </form>
+
+                    <form id="form-register" class="form-auth" style="display: none;" onsubmit="handleRegister(event)">
+                        <div class="form-group">
+                            <label for="reg-email">Correo electrónico</label>
+                            <input type="email" id="reg-email" required placeholder="tucorreo@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-username">Nombre de usuario</label>
+                            <input type="text" id="reg-username" required placeholder="usuario123">
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-displayname">Nombre para mostrar (Display Name)</label>
+                            <input type="text" id="reg-displayname" required placeholder="Tu Nombre o Apodo">
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-password">Contraseña</label>
+                            <input type="password" id="reg-password" required placeholder="••••••••">
+                        </div>
+                        <button type="submit" class="btn-subir-imagen">Crear Cuenta</button>
+                    </form>
+                </div>
+
+                <div id="user-panel" class="user-panel" style="display: none;">
+                    <h3>¡Hola, <span id="display-name-span"></span>! 👋</h3>
+                    <p><strong>Usuario:</strong> @<span id="username-span"></span></p>
+                    <p><strong>Correo:</strong> <span id="email-span"></span></p>
+                    <p class="badge-sesion">✨ Sesión activa en PinUp!</p>
+                    <button class="btn-auth-tab" onclick="handleLogout()" style="margin-top: 1rem; background: #ef4444; color: white; border: none;">Cerrar Sesión</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: PREGUNTAS FRECUENTES -->
+        <section id="preguntas" class="seccion-general">
+            <div class="titulo-seccion-container">
+                <span class="flecha-indicadora">&#8618;</span>
+                <h2 class="titulo-seccion">PREGUNTAS FRECUENTES</h2>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <h3 class="faq-pregunta">¿Quiénes somos? <span>+</span></h3>
+                    <div class="faq-respuesta"><p>Somos Gio y Ámbar, creadores de PinUp!, un emprendimiento dedicado a diseñar y fabricar pines personalizados en Santa Fe, Argentina.</p></div>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-pregunta">¿Por qué decidimos hacer el emprendimiento? <span>+</span></h3>
+                    <div class="faq-respuesta"><p>¡Porque amamos el arte, el diseño digital, el anime y los videojuegos! Queríamos dar vida física a todas esas ilustraciones y fandoms que nos encantan.</p></div>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-pregunta">¿Por qué elegirnos? <span>+</span></h3>
+                    <div class="faq-respuesta"><p>Cuidamos cada detalle de manera artesanal, garantizando un acabado brillante impecable, estructura trasera reforzada y atención personalizada.</p></div>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-pregunta">¿Cómo envío mis imágenes personalizadas? <span>+</span></h3>
+                    <div class="faq-respuesta"><p>Podés adjuntar tu imagen por WhatsApp o mail. Te armamos una vista previa antes de fabricarlos.</p></div>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-pregunta">¿Cuáles son las formas de pago? <span>+</span></h3>
+                    <div class="faq-respuesta"><p>Aceptamos efectivo contra entrega y transferencias mediante Mercado Pago.</p></div>
+                </div>
+            </div>
+
+            <div class="contacto-box" style="margin-top: 2rem;">
+                <h3>¿Tenés alguna otra duda? ¡Envianos tu pregunta!</h3>
+                <p id="aviso-login-pregunta" style="font-size: 0.85rem; color: #f472b6; margin-bottom: 0.8rem;">⚠️ Debes iniciar sesión en tu cuenta para poder enviar una pregunta.</p>
+                <form id="form-pregunta" onsubmit="enviarPregunta(event)">
+                    <textarea id="texto-pregunta" rows="3" placeholder="Escribí tu consulta aquí..." required style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 2px solid #c084fc; font-family: inherit; margin-bottom: 0.8rem;" disabled></textarea>
+                    <button type="submit" id="btn-enviar-pregunta" class="btn-subir-imagen" style="opacity: 0.5; cursor: not-allowed;" disabled>Enviar Pregunta</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: CONTACTO CON VALIDACIÓN (NIVEL 3) -->
+        <section id="contacto" class="seccion-general">
+            <div class="titulo-seccion-container">
+                <span class="flecha-indicadora">&#8618;</span>
+                <h2 class="titulo-seccion">CONTACTO</h2>
+            </div>
+            <div class="contacto-box">
+                <p>¿Tenés dudas o querés hacer un encargo? ¡Escribinos directamente!</p>
+                
+                <form id="form-contacto" class="form-auth" style="max-width: 500px; margin: 1rem auto;" onsubmit="validarFormularioContacto(event)">
+                    <div class="form-group">
+                        <label for="contacto-nombre">Nombre</label>
+                        <input type="text" id="contacto-nombre" placeholder="Tu nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="contacto-email">Correo electrónico</label>
+                        <input type="email" id="contacto-email" placeholder="tucorreo@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="contacto-mensaje">Mensaje</label>
+                        <textarea id="contacto-mensaje" rows="3" placeholder="Tu mensaje..." style="padding: 0.7rem; border-radius: 8px; border: 2px solid #c084fc; font-family: inherit;"></textarea>
+                    </div>
+                    <p id="contacto-error" style="color: #ef4444; font-size: 0.85rem; font-weight: bold; display: none;"></p>
+                    <button type="submit" class="btn-subir-imagen">Enviar Mensaje</button>
+                </form>
+
+                <a href="https://wa.me/" target="_blank" class="btn-whatsapp" style="margin-top: 1rem;">📲 Escribir por WhatsApp Directo</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- BOTÓN VOLVER ARRIBA (NIVEL 1) Y WHATSAPP -->
+    <button id="btn-volver-arriba" class="btn-volver-arriba" onclick="volverArriba()" title="Volver arriba">⬆️</button>
+    <a href="https://wa.me/" class="whatsapp-btn" target="_blank" aria-label="WhatsApp">
+        <svg viewBox="0 0 32 32" class="whatsapp-icon">
+            <path d="M16 2a13.96 13.96 0 0 0-11.96 21.2L2 30l7.02-2a13.96 13.96 0 1 0 6.98-26zm0 25.5a11.5 11.5 0 0 1-5.87-1.6l-.42-.25-4.36 1.25 1.27-4.22-.27-.44A11.5 11.5 0 1 1 16 27.5zm6.3-8.6c-.35-.18-2.07-1.02-2.39-1.14s-.55-.18-.78.18-.9 1.14-1.1 1.37-.41.25-.76.07a9.6 9.6 0 0 1-2.82-1.74 10.6 10.6 0 0 1-1.95-2.43c-.2-.35-.02-.54.15-.72.16-.16.35-.41.53-.62.18-.21.24-.35.35-.59.12-.23.06-.44-.03-.62s-.78-1.88-1.07-2.58c-.28-.68-.57-.59-.78-.6h-.67c-.23 0-.6.09-.92.44s-1.22 1.19-1.22 2.9 1.25 3.36 1.42 3.59c.18.23 2.46 3.76 5.96 5.27.83.36 1.48.58 1.99.74.84.27 1.6.23 2.2.14.68-.1 2.07-.85 2.36-1.67.29-.82.29-1.53.21-1.67-.09-.14-.33-.23-.68-.41z"/>
+        </svg>
+    </a>
+
+    <footer>
+        <p>&copy; <span id="footer-anio" class="numero">2026</span> <strong>PinUp!</strong> - Giovanni Rosa y Ámbar Savorgnani. Santa Fe, Argentina.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
