@@ -24,6 +24,7 @@
                 <a href="#pedidos">PEDIDOS</a>
                 <a href="#calculadora">CALCULADORA</a>
                 <a href="#stock">CATÁLOGO</a>
+                <a href="#reconocer">RECONOCER</a>
                 <a href="#clientes">CLIENTES</a>
                 <a href="#preguntas">PREGUNTAS</a>
                 <a href="#contacto">CONTACTO</a>
@@ -66,7 +67,7 @@
             </div>
         </section>
 
-<!-- SECCIÓN: PEDIDOS Y COMBOS -->
+        <!-- SECCIÓN: PEDIDOS Y COMBOS -->
         <section id="pedidos" class="seccion-general">
             <div class="titulo-seccion-container">
                 <span class="flecha-indicadora">&#8618;</span>
@@ -197,6 +198,72 @@
 
             <!-- GRILLA INYECTADA POR JS -->
             <div class="grid-productos" id="grid-stock-dinamico"></div>
+        </section>
+
+<!-- NIVEL 5: RECONOCEDOR CON IA -->
+        <section id="reconocer" class="seccion-general">
+            <div class="titulo-seccion-container">
+                <span class="flecha-indicadora">&#8618;</span>
+                <h2 class="titulo-seccion">RECONOCÉ TU PRODUCTO</h2>
+            </div>
+            <p class="descripcion-seccion">
+                Si no te sabés el nombre de un personaje y tenés dudas si tenemos stock, usá la opción de reconocimiento: mostrá el personaje a la cámara o subí una foto para ver si está disponible en <strong>PinUp!</strong>, consultar su precio y reseñas, y sumarlo a tu pedido.
+            </p>
+            <p style="font-size: 0.75rem; opacity: 0.8; margin-top: -1rem; margin-bottom: 1.5rem;">
+                *Por ahora solo están disponibles <span class="numero">10</span> personajes en el reconocedor.
+            </p>
+
+            <div class="ia-panel">
+                <p id="ia-aviso-demo" class="ia-aviso-demo" style="display: none;">
+                    Modo demo activo: configurá tu enlace de Teachable Machine en <code>ia.js</code>.
+                </p>
+
+                <div id="ia-controles" class="ia-controles">
+                    <button type="button" id="ia-btn-camara" class="btn-subir-imagen">📷 Usar cámara</button>
+                    <button type="button" id="ia-btn-capturar" class="btn-subir-imagen" style="display: none;">📸 Sacar foto</button>
+                    <button type="button" id="ia-btn-detener" class="btn-auth-tab" style="display: none;">⏹ Detener cámara</button>
+                    <label for="ia-input-foto" class="btn-subir-imagen">🖼️ Subir foto</label>
+                    <input type="file" id="ia-input-foto" accept="image/*" style="display: none;">
+                </div>
+
+                <p id="ia-estado" class="ia-estado">Elegí una opción para comenzar.</p>
+
+                <div class="ia-grid">
+                    <div id="ia-visor" class="ia-visor">
+                        <span>Vista previa de cámara o foto</span>
+                    </div>
+                    <div id="ia-barras" class="ia-barras" style="display: none;"></div>
+                </div>
+
+                <div id="ia-confirmacion" class="ia-confirmacion" style="display: none;">
+                    <p id="ia-pregunta-texto" class="ia-pregunta-texto"></p>
+                    <div class="ia-confirmacion-botones">
+                        <button type="button" id="ia-btn-si" class="btn-subir-imagen">✅ Sí</button>
+                        <button type="button" id="ia-btn-no" class="btn-auth-tab">❌ No</button>
+                    </div>
+                </div>
+
+                <div id="ia-resultado" class="ia-resultado" style="display: none;">
+                    <h3 id="ia-prod-nombre"></h3>
+                    <p id="ia-prod-precio" class="precio"></p>
+                    <p id="ia-prod-desc" class="texto-card"></p>
+                    <div class="ia-acciones-producto">
+                        <button type="button" id="ia-btn-agregar" class="btn-subir-imagen">🛒 Agregar al pedido</button>
+                        <button type="button" id="ia-btn-ir-producto" class="btn-auth-tab">🔗 Ir al producto</button>
+                    </div>
+                    <div class="ia-resenas-box">
+                        <h4>Reseñas de clientes</h4>
+                        <div id="ia-resenas-lista"></div>
+                    </div>
+                </div>
+
+                <div class="faq-item" style="margin-top: 1.2rem; text-align: left;">
+                    <h3 class="faq-pregunta">¿Cómo funciona? <span>+</span></h3>
+                    <div class="faq-respuesta">
+                        <p>Entrenamos un modelo de imágenes en Teachable Machine y lo conectamos con TensorFlow.js: al sacar una foto con la cámara o subir una imagen, el sistema identifica el personaje y te deja confirmar si es el que buscás para ver su stock, precio y reseñas.</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- SECCIÓN: CLIENTES (FOTOS DE PEDIDOS REALIZADOS CON LIGHTBOX) -->
@@ -382,6 +449,11 @@
         <p>&copy; <span id="footer-anio" class="numero">2026</span> <strong>PinUp!</strong> - Giovanni Rosa y Ámbar Savorgnani. Santa Fe, Argentina.</p>
     </footer>
 
+    <!-- Librerías de TensorFlow.js y Teachable Machine -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8.3/dist/teachablemachine-image.min.js"></script>
     <script src="script.js"></script>
+    <!-- ia.js va DESPUÉS de script.js porque usa sus funciones -->
+    <script src="ia.js"></script>
 </body>
 </html>

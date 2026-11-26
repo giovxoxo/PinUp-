@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    
+
     // 1. SALUDO DINÁMICO Y AÑO AUTOMÁTICO (NIVEL 1)
     const mensajeSaludo = document.getElementById("mensaje-saludo");
     const horaActual = new Date().getHours();
@@ -21,14 +21,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnTheme = document.getElementById("theme-toggle");
     if (localStorage.getItem("pinup_theme") === "dark") {
         document.body.classList.add("dark-mode");
-        btnTheme.textContent = "☀️ Modo Claro";
+        if (btnTheme) btnTheme.textContent = "☀️ Modo Claro";
     }
-    btnTheme.addEventListener("click", () => {
-        document.body.classList.toggle("dark-mode");
-        const isDark = document.body.classList.contains("dark-mode");
-        btnTheme.textContent = isDark ? "☀️ Modo Claro" : "🌙 Modo Oscuro";
-        localStorage.setItem("pinup_theme", isDark ? "dark" : "light");
-    });
+    if (btnTheme) {
+        btnTheme.addEventListener("click", () => {
+            document.body.classList.toggle("dark-mode");
+            const isDark = document.body.classList.contains("dark-mode");
+            btnTheme.textContent = isDark ? "☀️ Modo Claro" : "🌙 Modo Oscuro";
+            localStorage.setItem("pinup_theme", isDark ? "dark" : "light");
+        });
+    }
 
     // 3. MENÚ HAMBURGUESA RESPONSIVE (NIVEL 1)
     const menuBtn = document.getElementById("menu-btn");
@@ -42,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 4. BOTÓN VOLVER ARRIBA Y SCROLL (NIVEL 1)
     const btnVolverArriba = document.getElementById("btn-volver-arriba");
     window.addEventListener("scroll", () => {
+        if (!btnVolverArriba) return;
         if (window.scrollY > 300) {
             btnVolverArriba.style.display = "block";
         } else {
@@ -56,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     imagenesGaleria.forEach(img => {
         img.addEventListener("click", () => {
+            if (!lightboxModal || !lightboxImg) return;
             lightboxImg.src = img.src;
             lightboxModal.style.display = "flex";
         });
@@ -69,7 +73,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (buscadorInput) {
         buscadorInput.addEventListener("input", (e) => {
             const texto = e.target.value.toLowerCase();
-            const filtrados = productosStock.filter(p => p.nombre.toLowerCase().includes(texto) || p.descripcion.toLowerCase().includes(texto));
+            const filtrados = productosStock.filter(p =>
+                p.nombre.toLowerCase().includes(texto) ||
+                p.descripcion.toLowerCase().includes(texto)
+            );
             renderizarCatalogo(filtrados);
         });
     }
@@ -113,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     imagenUsuario.src = e.target.result;
                     imagenUsuario.style.display = "block";
                     placeholderTexto.style.display = "none";
-                }
+                };
                 lector.readAsDataURL(archivo);
             }
         });
@@ -127,51 +134,66 @@ document.addEventListener("DOMContentLoaded", () => {
     actualizarContadorCarrito();
 });
 
-// --- DATOS DEL CATÁLOGO (NIVEL 2: Array de Objetos) ---
+// --- DATOS DEL CATÁLOGO (NIVEL 2: Array de Objetos con IDs para IA) ---
 const productosStock = [
-    { nombre: "Plantilla Osamu Dazai", precio: 3000, categoria: "marron", imagen: "dazai.jpe", descripcion: "Ilustraciones de Dazai con gabardina, estilo capitán y Port Mafia." },
-    { nombre: "Plantilla Monika (DDLC)", precio: 3000, categoria: "marron", imagen: "Monika button pins!.jpe", descripcion: "Pines de Monika de Doki Doki Literature Club! con su moño blanco." },
-    { nombre: "Plantilla Warm Cocoa", precio: 3000, categoria: "marron", imagen: "brown theme pin.jpe", descripcion: "Grizzly de Escandalosos, Garfield, Domo-kun y café latte art." },
-    { nombre: "Plantilla Jester", precio: 3000, categoria: "morado", imagen: "Jester (tfc).jpe", descripcion: "Diseños teatrales con máscara, cuernos y tonos violeta oscuros." },
-    { nombre: "Plantilla Twilight Sparkle", precio: 3000, categoria: "morado", imagen: "twilight.jpe", descripcion: "Diseños de Twilight Sparkle leyendo libros y magia de la amistad." },
-    { nombre: "Plantilla Yuri (DDLC)", precio: 3000, categoria: "morado", imagen: "Yuri button pins!.jpe", descripcion: "Pines de Yuri con tazas de té, libros y miradas tímidas." },
-    { nombre: "Plantilla Kuromi Lila", precio: 3000, categoria: "morado", imagen: "Kuromi.jpe", descripcion: "Ilustraciones de Kuromi en tono violeta pastel con peluches y pijamas." },
-    { nombre: "Plantilla Mafuyu Asahina", precio: 3000, categoria: "morado", imagen: "Mafuyu Pin Template.jpe", descripcion: "Cartas dramáticas e ilustraciones de Mafuyu Asahina." },
-    { nombre: "Plantilla Lavender Dreams", precio: 3000, categoria: "morado", imagen: "morado.jpe", descripcion: "Frases en pixel art, lunas púrpuras, tulipanes y Hello Kitty." },
-    { nombre: "Plantilla Ado", precio: 3000, categoria: "azul", imagen: "ado.jpe", descripcion: "Diseños de la cantante Ado con su emblemática rosa azul y micrófono." },
-    { nombre: "Plantilla KAITO", precio: 3000, categoria: "azul", imagen: "kaito.jpe", descripcion: "Colección de KAITO con su clásica bufanda azul y lentes." },
-    { nombre: "Plantilla Blue Ocean Soft", precio: 3000, categoria: "azul", imagen: "azul.jpe", descripcion: "Ilustraciones tiernas de tiburones, Cinnamoroll y gatitos azules." },
-    { nombre: "Plantilla Sua (Alien Stage)", precio: 3000, categoria: "azul", imagen: "Sua pin bases 58mm for pin makers or diy!.jpe", descripcion: "Elegantes cortes de Sua de Alien Stage." },
-    { nombre: "Plantilla Hatsune Miku", precio: 3000, categoria: "azul", imagen: "miku.jpe", descripcion: "Colección completa de Hatsune Miku con coletas turquesa." },
-    { nombre: "Plantilla Cinnamoroll Soft", precio: 3000, categoria: "azul", imagen: "cinnamoroll.jpe", descripcion: "Cinnamoroll en patineta, con auriculares y roles adorables." },
-    { nombre: "Plantilla Shadow Milk Cookie", precio: 3000, categoria: "azul", imagen: "Shadow Milk Cookie.jpe", descripcion: "Expresiones místicas y divertidas de Shadow Milk Cookie." },
-    { nombre: "Plantilla Planet Neptuno", precio: 3000, categoria: "azul", imagen: "neptuno.jpe", descripcion: "El planeta Neptuno animado con caras graciosas y lentes de sol." },
-    { nombre: "Plantilla Nene Kusanagi", precio: 3000, categoria: "verde", imagen: "nene.jpe", descripcion: "Capturas y cartas de Nene Kusanagi con cabello verde pastel." },
-    { nombre: "Plantilla GIR", precio: 3000, categoria: "verde", imagen: "Pin idea.jpe", descripcion: "GIR en su traje de perrito verde comiendo pizza y cupcakes." },
-    { nombre: "Plantilla Flippy", precio: 3000, categoria: "verde", imagen: "Flippy pin templates!.jpe", descripcion: "El oso militar Flippy en su estado tierno y modo fiero Fliqpy." },
-    { nombre: "Plantilla Mint & Macarons", precio: 3000, categoria: "verde", imagen: "menta.jpe", descripcion: "Repostería estética menta, macarons y Pusheen." },
-    { nombre: "Plantilla Alien Cat", precio: 3000, categoria: "verde", imagen: "gato alienigena.jpe", descripcion: "Gatitos verdes espaciales con antenas y burritos espaciales." },
-    { nombre: "Plantilla Clover & Retro Green", precio: 3000, categoria: "verde", imagen: "verde.jpe", descripcion: "Tréboles de cuatro hojas, tapitas de Sprite y vinilos retro." },
-    { nombre: "Plantilla Kagamine Rin", precio: 3000, categoria: "amarillo", imagen: "broches da Rin_P.jpe", descripcion: "Colección variada de Kagamine Rin con moño blanco y Nendoroid." },
-    { nombre: "Plantilla Pompompurin", precio: 3000, categoria: "amarillo", imagen: "ama.jpe", descripcion: "Ilustraciones del adorable perrito Pompompurin con postres." },
-    { nombre: "Plantilla Emojis 3D", precio: 3000, categoria: "amarillo", imagen: "125256433380025902.jpe", descripcion: "Iconos retro de emojis en 3D con expresiones cómicas." },
-    { nombre: "Plantilla Yellow Sunshine", precio: 3000, categoria: "amarillo", imagen: "pin tamplete yellow.jpe", descripcion: "Diseños con Isabelle y Fauna de Animal Crossing y limones." },
-    { nombre: "Plantilla Golden Hour", precio: 3000, categoria: "amarillo", imagen: "free to use _3 (1).jpe", descripcion: "Texturas doradas, panales de abeja y cielo al atardecer." },
-    { nombre: "Plantilla Bob Esponja", precio: 3000, categoria: "amarillo", imagen: "bob esponja.jpe", descripcion: "Bob Esponja coquette con tutú rosa, enamorado y memes." },
-    { nombre: "Plantilla Eternal Sugar Cookie", precio: 3000, categoria: "rosa", imagen: "Eternal sugar cookie.jpe", descripcion: "Diseños resplandecientes con arpa dorada y tiara." },
-    { nombre: "Plantilla Kirby Multiverso", precio: 3000, categoria: "rosa", imagen: "Kirby.jpe", descripcion: "Kirby con gorrito de Mario, Luigi, Link y disfraz de sandía." },
-    { nombre: "Plantilla Yami Kawaii", precio: 3000, categoria: "rosa", imagen: "stickers printing.jpe", descripcion: "Estética pastel gore con ojo brillante y cerebro pastel." },
-    { nombre: "Plantilla Kasane Teto", precio: 3000, categoria: "rosa", imagen: "teto.jpe", descripcion: "Pines de Kasane Teto con su característico pelo rosa y baguette." },
-    { nombre: "Plantilla Megurine Luka", precio: 3000, categoria: "rosa", imagen: "Luka.jpe", descripcion: "Diseños de Megurine Luka con modelos 3D y pulpo Luka." },
-    { nombre: "Plantilla Natsuki (DDLC)", precio: 3000, categoria: "rosa", imagen: "Natsuki button pins!.jpe", descripcion: "Pines de Natsuki mostrando expresiones tsundere." },
-    { nombre: "Plantilla Madoka Kaname", precio: 3000, categoria: "rosa", imagen: "Madoka pins.jpe", descripcion: "Ilustraciones mágicas de Madoka Magica." },
-    { nombre: "Plantilla Kenny McCormick", precio: 3000, categoria: "naranja", imagen: "Kenny.jpe", descripcion: "Kenny disfrazado de Princess Kenny, Miku y tomando Fanta." },
-    { nombre: "Plantilla Darwin", precio: 3000, categoria: "naranja", imagen: "darwin.jpe", descripcion: "Las expresiones hiperrealistas más graciosas de Darwin Watterson." },
-    { nombre: "Plantilla Roblox Delivery", precio: 3000, categoria: "naranja", imagen: "pizza.jpe", descripcion: "Inspirado en Work at a Pizza Place con avatares divertidos." },
-    { nombre: "Plantilla Sunset Orange", precio: 3000, categoria: "naranja", imagen: "free to use _3.jpe", descripcion: "Patrones de atardeceres, lunas naranjas y texturas cítricas." },
-    { nombre: "Plantilla Emo & Red Rock", precio: 3000, categoria: "rojo", imagen: "emo pin templates oh yes.jpe", descripcion: "Diseños alternativos en rojo y negro con frases y calaveras." },
-    { nombre: "Plantilla Phantom Cats", precio: 3000, categoria: "rojo", imagen: "⋆ highlight covers.jpe", descripcion: "Siluetas de gatitos rebeldes inspiradas en Persona 5." }
+    { id: 1, nombre: "Plantilla Monika (DDLC)", precio: 3000, categoria: "marron", imagen: "Monika button pins!.jpe", descripcion: "Pines de Monika de Doki Doki Literature Club! con su moño blanco." },
+    { id: 2, nombre: "Plantilla KAITO", precio: 3000, categoria: "azul", imagen: "kaito.jpe", descripcion: "Colección de KAITO con su clásica bufanda azul y lentes." },
+    { id: 3, nombre: "Plantilla Kagamine Rin", precio: 3000, categoria: "amarillo", imagen: "broches da Rin_P.jpe", descripcion: "Colección variada de Kagamine Rin con moño blanco y Nendoroid." },
+    { id: 4, nombre: "Plantilla Sua (Alien Stage)", precio: 3000, categoria: "azul", imagen: "Sua pin bases 58mm for pin makers or diy!.jpe", descripcion: "Elegantes cortes de Sua de Alien Stage." },
+    { id: 5, nombre: "Plantilla Twilight Sparkle", precio: 3000, categoria: "morado", imagen: "twilight.jpe", descripcion: "Diseños de Twilight Sparkle leyendo libros y magia de la amistad." },
+    { id: 6, nombre: "Plantilla Bob Esponja", precio: 3000, categoria: "amarillo", imagen: "bob esponja.jpe", descripcion: "Bob Esponja coquette con tutú rosa, enamorado y memes." },
+    { id: 7, nombre: "Plantilla Hatsune Miku", precio: 3000, categoria: "azul", imagen: "miku.jpe", descripcion: "Colección completa de Hatsune Miku con coletas turquesa." },
+    { id: 8, nombre: "Plantilla Madoka Kaname", precio: 3000, categoria: "rosa", imagen: "Madoka pins.jpe", descripcion: "Ilustraciones mágicas de Madoka Magica." },
+    { id: 9, nombre: "Plantilla Kenny McCormick", precio: 3000, categoria: "naranja", imagen: "Kenny.jpe", descripcion: "Kenny disfrazado de Princess Kenny, Miku y tomando Fanta." },
+    { id: 10, nombre: "Plantilla Flippy", precio: 3000, categoria: "verde", imagen: "Flippy pin templates!.jpe", descripcion: "El oso militar Flippy en su estado tierno y modo fiero Fliqpy." },
+    { id: 11, nombre: "Plantilla Osamu Dazai", precio: 3000, categoria: "marron", imagen: "dazai.jpe", descripcion: "Ilustraciones de Dazai con gabardina, estilo capitán y Port Mafia." },
+    { id: 12, nombre: "Plantilla Warm Cocoa", precio: 3000, categoria: "marron", imagen: "brown theme pin.jpe", descripcion: "Grizzly de Escandalosos, Garfield, Domo-kun y café latte art." },
+    { id: 13, nombre: "Plantilla Jester", precio: 3000, categoria: "morado", imagen: "Jester (tfc).jpe", descripcion: "Diseños teatrales con máscara, cuernos y tonos violeta oscuros." },
+    { id: 14, nombre: "Plantilla Yuri (DDLC)", precio: 3000, categoria: "morado", imagen: "Yuri button pins!.jpe", descripcion: "Pines de Yuri con tazas de té, libros y miradas tímidas." },
+    { id: 15, nombre: "Plantilla Kuromi Lila", precio: 3000, categoria: "morado", imagen: "Kuromi.jpe", descripcion: "Ilustraciones de Kuromi en tono violeta pastel con peluches y pijamas." },
+    { id: 16, nombre: "Plantilla Mafuyu Asahina", precio: 3000, categoria: "morado", imagen: "Mafuyu Pin Template.jpe", descripcion: "Cartas dramáticas e ilustraciones de Mafuyu Asahina." },
+    { id: 17, nombre: "Plantilla Lavender Dreams", precio: 3000, categoria: "morado", imagen: "morado.jpe", descripcion: "Frases en pixel art, lunas púrpuras, tulipanes y Hello Kitty." },
+    { id: 18, nombre: "Plantilla Ado", precio: 3000, categoria: "azul", imagen: "ado.jpe", descripcion: "Diseños de la cantante Ado con su emblemática rosa azul y micrófono." },
+    { id: 19, nombre: "Plantilla Blue Ocean Soft", precio: 3000, categoria: "azul", imagen: "azul.jpe", descripcion: "Ilustraciones tiernas de tiburones, Cinnamoroll y gatitos azules." },
+    { id: 20, nombre: "Plantilla Cinnamoroll Soft", precio: 3000, categoria: "azul", imagen: "cinnamoroll.jpe", descripcion: "Cinnamoroll en patineta, con auriculares y roles adorables." },
+    { id: 21, nombre: "Plantilla Shadow Milk Cookie", precio: 3000, categoria: "azul", imagen: "Shadow Milk Cookie.jpe", descripcion: "Expresiones místicas y divertidas de Shadow Milk Cookie." },
+    { id: 22, nombre: "Plantilla Planet Neptuno", precio: 3000, categoria: "azul", imagen: "neptuno.jpe", descripcion: "El planeta Neptuno animado con caras graciosas y lentes de sol." },
+    { id: 23, nombre: "Plantilla Nene Kusanagi", precio: 3000, categoria: "verde", imagen: "nene.jpe", descripcion: "Capturas y cartas de Nene Kusanagi con cabello verde pastel." },
+    { id: 24, nombre: "Plantilla GIR", precio: 3000, categoria: "verde", imagen: "Pin idea.jpe", descripcion: "GIR en su traje de perrito verde comiendo pizza y cupcakes." },
+    { id: 25, nombre: "Plantilla Mint & Macarons", precio: 3000, categoria: "verde", imagen: "menta.jpe", descripcion: "Repostería estética menta, macarons y Pusheen." },
+    { id: 26, nombre: "Plantilla Alien Cat", precio: 3000, categoria: "verde", imagen: "gato alienigena.jpe", descripcion: "Gatitos verdes espaciales con antenas y burritos espaciales." },
+    { id: 27, nombre: "Plantilla Clover & Retro Green", precio: 3000, categoria: "verde", imagen: "verde.jpe", descripcion: "Tréboles de cuatro hojas, tapitas de Sprite y vinilos retro." },
+    { id: 28, nombre: "Plantilla Pompompurin", precio: 3000, categoria: "amarillo", imagen: "ama.jpe", descripcion: "Ilustraciones del adorable perrito Pompompurin con postres." },
+    { id: 29, nombre: "Plantilla Emojis 3D", precio: 3000, categoria: "amarillo", imagen: "125256433380025902.jpe", descripcion: "Iconos retro de emojis en 3D con expresiones cómicas." },
+    { id: 30, nombre: "Plantilla Yellow Sunshine", precio: 3000, categoria: "amarillo", imagen: "pin tamplete yellow.jpe", descripcion: "Diseños con Isabelle y Fauna de Animal Crossing y limones." },
+    { id: 31, nombre: "Plantilla Golden Hour", precio: 3000, categoria: "amarillo", imagen: "free to use _3 (1).jpe", descripcion: "Texturas doradas, panales de abeja y cielo al atardecer." },
+    { id: 32, nombre: "Plantilla Eternal Sugar Cookie", precio: 3000, categoria: "rosa", imagen: "Eternal sugar cookie.jpe", descripcion: "Diseños resplandecientes con arpa dorada y tiara." },
+    { id: 33, nombre: "Plantilla Kirby Multiverso", precio: 3000, categoria: "rosa", imagen: "Kirby.jpe", descripcion: "Kirby con gorrito de Mario, Luigi, Link y disfraz de sandía." },
+    { id: 34, nombre: "Plantilla Yami Kawaii", precio: 3000, categoria: "rosa", imagen: "stickers printing.jpe", descripcion: "Estética pastel gore con ojo brillante y cerebro pastel." },
+    { id: 35, nombre: "Plantilla Kasane Teto", precio: 3000, categoria: "rosa", imagen: "teto.jpe", descripcion: "Pines de Kasane Teto con su característico pelo rosa y baguette." },
+    { id: 36, nombre: "Plantilla Megurine Luka", precio: 3000, categoria: "rosa", imagen: "Luka.jpe", descripcion: "Diseños de Megurine Luka con modelos 3D y pulpo Luka." },
+    { id: 37, nombre: "Plantilla Natsuki (DDLC)", precio: 3000, categoria: "rosa", imagen: "Natsuki button pins!.jpe", descripcion: "Pines de Natsuki mostrando expresiones tsundere." },
+    { id: 38, nombre: "Plantilla Darwin", precio: 3000, categoria: "naranja", imagen: "darwin.jpe", descripcion: "Las expresiones hiperrealistas más graciosas de Darwin Watterson." },
+    { id: 39, nombre: "Plantilla Roblox Delivery", precio: 3000, categoria: "naranja", imagen: "pizza.jpe", descripcion: "Inspirado en Work at a Pizza Place con avatares divertidos." },
+    { id: 40, nombre: "Plantilla Sunset Orange", precio: 3000, categoria: "naranja", imagen: "free to use _3.jpe", descripcion: "Patrones de atardeceres, lunas naranjas y texturas cítricas." },
+    { id: 41, nombre: "Plantilla Emo & Red Rock", precio: 3000, categoria: "rojo", imagen: "emo pin templates oh yes.jpe", descripcion: "Diseños alternativos en rojo y negro con frases y calaveras." },
+    { id: 42, nombre: "Plantilla Phantom Cats", precio: 3000, categoria: "rojo", imagen: "⋆ highlight covers.jpe", descripcion: "Siluetas de gatitos rebeldes inspiradas en Persona 5." }
 ];
+
+// Funciones auxiliares usadas por ia.js
+function buscarProducto(id) {
+    const idNum = Number(id);
+    if (Array.isArray(window.productos)) {
+        const encontrado = window.productos.find(p => Number(p.id) === idNum);
+        if (encontrado) return encontrado;
+    }
+    return productosStock.find((p, idx) => Number(p.id ?? (idx + 1)) === idNum) || null;
+}
+
+function formatearPrecio(valor) {
+    const num = Number(valor) || 0;
+    return `$<span class="numero">${num.toLocaleString("es-AR")}</span> ARS`;
+}
 
 // Renderizar catálogo con Bucle (Nivel 2)
 function renderizarCatalogo(lista) {
@@ -280,12 +302,10 @@ function calcularPresupuesto() {
 
     let cant = parseInt(cantidadInput.value) || 1;
 
-    // Validación para que se mantenga entre 1 y 8
     if (cant < 1) cant = 1;
     if (cant > 8) cant = 8;
     cantidadInput.value = cant;
 
-    // Precios exactos fijados para mayor ganancia
     const preciosLista = {
         1: 3000,
         2: 5500,
@@ -302,37 +322,37 @@ function calcularPresupuesto() {
 }
 
 function agregarCalculoAlCarrito() {
-    const cant = document.getElementById("calc-cantidad").value;
-    const total = document.getElementById("calc-resultado").textContent.replace(".", "");
-    agregarAlCarrito(`Pack Personalizado x${cant} pines`, parseInt(total));
-}
+    const cantInput = document.getElementById("calc-cantidad");
+    const resultadoSpan = document.getElementById("calc-resultado");
+    if (!cantInput || !resultadoSpan) return;
 
-function agregarCalculoAlCarrito() {
-    const cant = document.getElementById("calc-cantidad").value;
-    const total = document.getElementById("calc-resultado").textContent;
-    agregarAlCarrito(`Pack Personalizado x${cant} pines`, parseInt(total));
+    const cant = parseInt(cantInput.value) || 1;
+    const totalLimpio = parseInt(resultadoSpan.textContent.replace(/\./g, ""), 10) || 3000;
+    agregarAlCarrito(`Pack Personalizado x${cant} pines`, totalLimpio);
 }
 
 // --- LIGHTBOX MODAL (NIVEL 1) ---
 function abrirLightbox(src) {
     const lightboxModal = document.getElementById("lightbox-modal");
     const lightboxImg = document.getElementById("lightbox-img");
+    if (!lightboxModal || !lightboxImg) return;
     lightboxImg.src = src;
     lightboxModal.style.display = "flex";
 }
 
 function cerrarLightbox() {
-    document.getElementById("lightbox-modal").style.display = "none";
+    const lightboxModal = document.getElementById("lightbox-modal");
+    if (lightboxModal) lightboxModal.style.display = "none";
 }
 
 // --- VOLVER ARRIBA (NIVEL 1) ---
 function volverArriba() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 // --- CUENTA REGRESIVA PROMO (NIVEL 4) ---
 function iniciarCountdown() {
-    let tiempoRestante = 2 * 24 * 60 * 60 + 14 * 60 * 60 + 45 * 60; // 2 días, 14h, 45m
+    let tiempoRestante = 2 * 24 * 60 * 60 + 14 * 60 * 60 + 45 * 60;
     const reloj = document.getElementById("countdown-reloj");
     if (!reloj) return;
 
@@ -345,7 +365,7 @@ function iniciarCountdown() {
         const minutos = Math.floor((tiempoRestante % 3600) / 60);
         const segundos = tiempoRestante % 60;
 
-        reloj.innerHTML = `<span class="numero">${dias < 10 ? '0'+dias : dias}</span>d : <span class="numero">${horas < 10 ? '0'+horas : horas}</span>h : <span class="numero">${minutos < 10 ? '0'+minutos : minutos}</span>m : <span class="numero">${segundos < 10 ? '0'+segundos : segundos}</span>s`;
+        reloj.innerHTML = `<span class="numero">${dias < 10 ? "0" + dias : dias}</span>d : <span class="numero">${horas < 10 ? "0" + horas : horas}</span>h : <span class="numero">${minutos < 10 ? "0" + minutos : minutos}</span>m : <span class="numero">${segundos < 10 ? "0" + segundos : segundos}</span>s`;
     }, 1000);
 }
 
@@ -384,7 +404,7 @@ function cambiarTab(tipo) {
     const tabLogin = document.getElementById("tab-login");
     const tabRegister = document.getElementById("tab-register");
 
-    if (tipo === 'login') {
+    if (tipo === "login") {
         formLogin.style.display = "flex";
         formRegister.style.display = "none";
         tabLogin.classList.add("active");
@@ -407,7 +427,7 @@ function handleRegister(event) {
     const userData = { email, username, displayname, password };
     localStorage.setItem("pinup_user", JSON.stringify(userData));
     alert("¡Cuenta creada con éxito! Ya podés iniciar sesión.");
-    cambiarTab('login');
+    cambiarTab("login");
 }
 
 function handleLogin(event) {
